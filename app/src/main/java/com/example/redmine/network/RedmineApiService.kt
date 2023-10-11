@@ -1,18 +1,9 @@
 package com.example.redmine.network
 
-import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.http.GET
 
-private const val BASE_URL = "https://rm.wwind.ua"
-
-private val retrofit = Retrofit.Builder()
-    .addConverterFactory(ScalarsConverterFactory.create())
-    .baseUrl(BASE_URL)
-    .build()
-
 interface RedmineApiService {
-    @GET("issues.json?assigned_to_id=me")
+    @GET("issues.json?key=7514b71f69871b3ea479f376ae8c27d6a75948bd")
     fun getMyIssues(): String
 }
 
