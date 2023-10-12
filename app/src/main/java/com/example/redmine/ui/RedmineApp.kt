@@ -9,5 +9,5 @@ import com.example.redmine.ui.screens.RedmineViewModel
 fun RedmineApp() {
     val redmineViewModel: RedmineViewModel =
         viewModel(factory = RedmineViewModel.Factory)
-    HomeScreen(redmineUiState = )
+    HomeScreen(redmineUiState = redmineViewModel.redmineUiState)
 }

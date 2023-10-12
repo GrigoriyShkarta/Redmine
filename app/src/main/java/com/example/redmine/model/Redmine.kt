@@ -1,5 +1,8 @@
 package com.example.redmine.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Redmine(
     val id: Int,
     val tracker: Tracker,
@@ -12,26 +15,31 @@ data class Redmine(
     val status: Status
 )
 
+@Serializable
 data class Tracker(
     val id: Int,
     val name: String
 )
 
+@Serializable
 data class Author(
     val id: Int,
     val name: String
 )
 
+@Serializable
 data class Priority(
     val id: Int,
     val name: String
 )
 
+@Serializable
 data class Version(
     val id: Int,
     val name: String
 )
 
+@Serializable
 data class Status(
     val id: Int,
     val name: String

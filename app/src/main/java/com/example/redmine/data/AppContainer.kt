@@ -1,8 +1,10 @@
 package com.example.redmine.data
 
 import com.example.redmine.network.RedmineApiService
+import kotlinx.serialization.json.Json
 import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import okhttp3.MediaType.Companion.toMediaType
 
 interface AppContainer {
     val redmineRepository: RedmineRepository
@@ -12,7 +14,7 @@ class DefaultAppContainer : AppContainer {
     private val baseUrl = "https://rm.wwind.ua"
 
     private val retrofit = Retrofit.Builder()
-        .addConverterFactory(ScalarsConverterFactory.create())
+        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .baseUrl(baseUrl)
         .build()
 

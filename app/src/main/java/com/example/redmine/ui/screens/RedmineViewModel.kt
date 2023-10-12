@@ -4,7 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.redmine.RedmineApplication
 import com.example.redmine.data.RedmineRepository
 import com.example.redmine.model.Redmine
 import kotlinx.coroutines.launch
@@ -18,7 +23,6 @@ sealed interface RedmineUiState {
 }
 
 class RedmineViewModel(private val redmineRepository: RedmineRepository) : ViewModel() {
-
     var redmineUiState: RedmineUiState by mutableStateOf(RedmineUiState.Loading)
         private set
 
@@ -27,10 +31,11 @@ class RedmineViewModel(private val redmineRepository: RedmineRepository) : ViewM
     }
 
     fun getMyIssues() {
-        viewModelScope.launch{
+        viewModelScope.launch {
             redmineUiState = RedmineUiState.Loading
             redmineUiState = try {
-                RedmineUiState.Success(redmineRepository.getMyIssues())
+                val issues: List<Redmine> = redmineRepository.getMyIssues()
+                RedmineUiState.Success(issues)
             } catch (e: IOException) {
                 RedmineUiState.Error
             } catch (e: HttpException) {
@@ -42,9 +47,9 @@ class RedmineViewModel(private val redmineRepository: RedmineRepository) : ViewM
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val application = (this[APPLICATION_KEY] as MarsPhotosApplication)
-                val marsPhotosRepository = application.container.marsPhotosRepository
-                MarsViewModel(marsPhotosRepository = marsPhotosRepository)
+                val application = (this[APPLICATION_KEY] as RedmineApplication)
+                val redmineRepository = application.container.redmineRepository
+                RedmineViewModel(redmineRepository = redmineRepository)
             }
         }
     }

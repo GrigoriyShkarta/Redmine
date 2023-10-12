@@ -12,12 +12,5 @@ interface RedmineRepository {
 class NetworkRedmineRepository(
     private val redmineApiService: RedmineApiService
 ) : RedmineRepository {
-    override suspend fun getMyIssues(): List<Redmine> {
-        val responseString = redmineApiService.getMyIssues()
-
-        val gson = Gson()
-        val listType = object : TypeToken<List<Redmine>>() {}.type
-
-        return gson.fromJson(responseString, listType)
-    }
+    override suspend fun getMyIssues(): List<Redmine> = redmineApiService.getMyIssues()
 }
